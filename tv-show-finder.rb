@@ -44,8 +44,12 @@ def scan(options)
       full_path = File.absolute_path(options[:scan_dir] + '/' + dir)
       if (File.directory?(full_path))
         if (/(.*)S(aison|eason)?\s*(\d)+.*/.match(dir))
-          puts dir
-          push_to_output(full_path, $1, $3, options[:output_dir])
+          tv_show_name = $1
+          tv_show_name.gsub!('.', ' ')
+          tv_show_name.gsub!('-', ' ')
+          tv_show_name.gsub!(/\s+/, ' ')
+          puts "#{tv_show_name}:"
+          push_to_output(full_path, tv_show_name, $3, options[:output_dir])
         end
       end
     end
