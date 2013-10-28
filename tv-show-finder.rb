@@ -48,33 +48,45 @@ def scan(options)
   input.each{|dir|
     if (!(dir == '.' || dir == '..'))
       full_path = File.absolute_path(options[:scan_dir] + '/' + dir)
-      if (File.directory?(full_path))
-        if (/(.*)S(\d+)\s*E(\d+)/.match(dir))
+      if (/(.*)S(\d+)\s*E(\d+)/.match(dir))
+        tv_show_name = $1
+        season_nb = $2
+        episod_nb = $3
+        tv_show_name.gsub!('.', ' ')
+        tv_show_name.gsub!('-', ' ')
+        tv_show_name.gsub!(/\s+/, ' ')
+        if (/(.*)\s+/.match(tv_show_name))
           tv_show_name = $1
-          season_nb = $2
-          episod_nb = $3
-          tv_show_name.gsub!('.', ' ')
-          tv_show_name.gsub!('-', ' ')
-          tv_show_name.gsub!(/\s+/, ' ')
-          if (/(.*)\s+/.match(tv_show_name))
-            tv_show_name = $1
-          end
-          push_to_output(full_path, tv_show_name, season_nb, options[:output_dir], episod_nb)
-          next
         end
-
-        if (/(.*)S(aison|eason)?\s*(\d)+.*/.match(dir))
+        push_to_output(full_path, tv_show_name, season_nb, options[:output_dir], episod_nb)
+        next
+      end
+      
+      if (/(.*)(\d+)x(\d+)/.match(dir))
+        tv_show_name = $1
+        season_nb = $2
+        episod_nb = $3
+        tv_show_name.gsub!('.', ' ')
+          tv_show_name.gsub!('-', ' ')
+        tv_show_name.gsub!(/\s+/, ' ')
+        if (/(.*)\s+/.match(tv_show_name))
           tv_show_name = $1
+        end
+        push_to_output(full_path, tv_show_name, season_nb, options[:output_dir], episod_nb)
+        next
+      end
+      
+      if (/(.*)S(aison|eason)?\s*(\d)+.*/.match(dir))
+        tv_show_name = $1
           season_nb = $3
-          tv_show_name.gsub!('.', ' ')
-          tv_show_name.gsub!('-', ' ')
-          tv_show_name.gsub!(/\s+/, ' ')
-          if (/(.*)\s+/.match(tv_show_name))
-            tv_show_name = $1
-          end
-          push_to_output(full_path, tv_show_name, season_nb, options[:output_dir])
-          next
+        tv_show_name.gsub!('.', ' ')
+        tv_show_name.gsub!('-', ' ')
+        tv_show_name.gsub!(/\s+/, ' ')
+        if (/(.*)\s+/.match(tv_show_name))
+          tv_show_name = $1
         end
+        push_to_output(full_path, tv_show_name, season_nb, options[:output_dir])
+        next
       end
     end
   }
