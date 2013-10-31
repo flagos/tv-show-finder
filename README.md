@@ -18,7 +18,7 @@ Then, for all distros, as root: gem install micro-optparse rb-inotify
 ## How to use it ?
 
 This script runs in daemon mode, triggering for a new download to be symlinked. To launch it, run this:
-./tv-show-finder.rb -s <my_torrent_download_directory> -o <empty_directory_i_will_provide_to_xbmc>
+./tv-show-finder.rb -s my_torrent_download_directory -o empty_directory_i_will_provide_to_xbmc
 
 To start it at your computer boot: 
 crontab -e
@@ -26,6 +26,6 @@ crontab -e
 use nano
 
 add this line:
-@reboot cd <path_to_where_i_install_tv_show_finder> && /tv-show-finder.rb -s <my_torrent_download_directory> -o <empty_directory_i_will_provide_to_xbmc>
+@reboot cd path_to_where_i_install_tv_show_finder && /tv-show-finder.rb -s my_torrent_download_directory -o empty_directory_i_will_provide_to_xbmc
  
 That's All, Enjoy !
